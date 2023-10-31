@@ -2,7 +2,7 @@ package validator
 
 import (
 	"AILN/app/core/container"
-	"AILN/app/core/validator/request"
+	"AILN/app/core/validator/checker"
 	"AILN/app/lib/xerr"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -30,6 +30,6 @@ func init() {
 	var key string
 
 	key = "SendEmailCode"
-	containers.Set(key, &request.SendEmailCodeReq{})
+	containers.Set(key, &checker.SendEmailChecker{})
 
 }
