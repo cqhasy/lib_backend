@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: CICD
-  name: KLAI
+  name: klai
 spec:
   selector:
     matchLabels:
-      app: KLAI
+      app: klai
   template:
     metadata:
       labels:
-        app: KLAI
+        app: klai
     spec:
       containers:
-        - name: KLAI
-          image: registry.cn-hangzhou.aliyuncs.com/muxi/KLAI:latest
+        - name: klai
+          image: registry.cn-hangzhou.aliyuncs.com/muxi/klai:latest
           ports:
             - containerPort: 8080

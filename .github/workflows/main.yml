@@ -25,7 +25,7 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: registry.cn-hangzhou.aliyuncs.com/muxi/KLAI:latest
+          tags: registry.cn-hangzhou.aliyuncs.com/muxi/klai:latest
         
       - uses: danielr1996/kubectl-action@1.0.0
         name: Deploy
