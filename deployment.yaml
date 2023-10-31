@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: test
+  namespace: k-test
   name: klai
 spec:
   selector:
