@@ -1,8 +1,6 @@
 name: Build and Deploy to K8S
 
-on:
-  push:
-    branches: [ $default-branch ]
+on: push
 
 jobs:
   build-deploy:
