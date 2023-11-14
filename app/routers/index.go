@@ -7,7 +7,9 @@ import (
 
 type router struct {
 	*gin.RouterGroup
-	auth *controller.Auth
+	auth    *controller.Auth
+	editor  *controller.Editor
+	visitor *controller.Visitor
 }
 
 func Load(e *gin.Engine) {
@@ -15,5 +17,8 @@ func Load(e *gin.Engine) {
 		RouterGroup: &e.RouterGroup,
 		auth:        &controller.Auth{},
 	}
+	r.RouterGroup = r.Group("/api/v1")
 	r.useAuth()
+	r.userEditor()
+	r.userVisitor()
 }

@@ -1,16 +1,31 @@
 package main
 
 import (
-	"AILN/app/config"
+	"AILN/app/common"
+	"AILN/app/core/config"
+	"AILN/app/core/gorm"
+	"AILN/app/core/middlewares"
+	"AILN/app/core/zap"
 	"AILN/app/routers"
 	"github.com/gin-gonic/gin"
+	"github.com/gookit/goutil/cliutil"
 	"log"
 )
 
 func main() {
-	config.Info = config.New("./config/config.yaml")
+	common.CONFIG = config.New("./config.toml")
+	common.LOG = zap.AddZap()
+	DB, err := gorm.NewGorm()
+	if err != nil {
+		cliutil.Errorln(err)
+		return
+	}
+
+	common.DB = DB
 	engine := gin.Default()
 	routers.Load(engine)
+	middlewares.Load(engine)
+
 	if err := engine.Run("0.0.0.0:8080"); err != nil {
 		log.Fatal(err)
 	}
