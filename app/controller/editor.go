@@ -21,7 +21,7 @@ var editorService *service.EditorService
 // @Security ApiKeyAuth
 // @Success 200 {object} response.UploadFile "upload file success"
 // @Failure 401 {object} response.ErrorResponse "Unauthorized"
-// @Router /api/v1/editor/upload [post]
+// @Router /api/v1/editor/file [post]
 func (e *Editor) UploadFile(c *gin.Context) {
 	multipartForm, err := c.MultipartForm()
 	if err != nil {
@@ -51,21 +51,44 @@ func (e *Editor) UploadFile(c *gin.Context) {
 // @Description Creates a new document with a specified key and value.
 // @Accept json;multipart/form-data
 // @Produce json
-// @Param key formData string true "Key for the document"
-// @Param value formData string true "Value for the document"
+// @Param block formData string true "Block of the document" default(SomeBlock)
+// @Param group formData string true "Group of the document" default(SomeGroup)
+// @Param title formData string true "Title of the document" default(SomeTitle)
+// @Param create_at formData int64 true "Creation timestamp of the document" default(1636972168)
+// @Param content formData string true "Content of the document" default(Some content)
 // @Security ApiKeyAuth
 // @Success 200 {string} string "Document created successfully"
 // @Failure 401 {object} response.ErrorResponse "Unauthorized"
-// @Router /api/v1/editor/document/create [post]
+// @Router /api/v1/editor/document [post]
 func (e *Editor) CreateDocument(c *gin.Context) {
 	req := &request.CreateDocumentReq{}
 	if err := c.ShouldBind(req); err != nil {
 		response.FailMsg(c, fmt.Sprintf("parse params error: %v", err))
 		return
 	}
-	if err := editorService.CreateDocument(req.Key, req.Value); err != nil {
+	if err := editorService.CreateDocument(req); err != nil {
 		response.FailMsg(c, fmt.Sprintf("create document error: %v", err))
 		return
 	}
 	response.OkMsg(c, "create document success")
+}
+
+// @Summary 删掉文档
+// @Description Delete a document by its ID
+// @Accept json;multipart/form-data
+// @Produce json
+// @Param id formData uint true "ID of the document to delete" default(123)
+// @Success 200 {string} string "delete document success"
+// @Router /api/v1/editor/document [delete]
+func (e *Editor) DeleteDocument(c *gin.Context) {
+	req := &request.DeleteDocumentReq{}
+	if err := c.ShouldBind(req); err != nil {
+		response.FailMsg(c, fmt.Sprintf("parse params error: %v", err))
+		return
+	}
+	if err := editorService.DeleteDocument(req.ID); err != nil {
+		response.FailMsg(c, fmt.Sprintf("delete document error: %v", err))
+		return
+	}
+	response.OkMsg(c, "delete document success")
 }

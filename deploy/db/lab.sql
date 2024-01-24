@@ -11,9 +11,11 @@ insert into user (username, password) values ('root11', 'root11');
 
 create table if not exists document  (
                 id INT PRIMARY KEY AUTO_INCREMENT,
-                `key` VARCHAR(255),
-                `value` TEXT,
-                `created_at` BIGINT DEFAULT 0
+                block VARCHAR(255) NOT NULL,
+                group_name VARCHAR(255) NOT NULL,
+                title VARCHAR(255) NOT NULL,
+                create_at BIGINT NOT NULL,
+                content TEXT NOT NULL
 );
 
 DROP TABLE if exists document;

@@ -20,13 +20,12 @@ func main() {
 		cliutil.Errorln(err)
 		return
 	}
-
 	common.DB = DB
 	engine := gin.Default()
-	routers.Load(engine)
 	middlewares.Load(engine)
+	routers.Load(engine)
 
-	if err := engine.Run("0.0.0.0:8080"); err != nil {
+	if err := engine.Run("0.0.0.0:30000"); err != nil {
 		log.Fatal(err)
 	}
 }

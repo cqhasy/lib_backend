@@ -9,9 +9,8 @@ import (
 func UseCors(r *gin.Engine) {
 	r.Use(func(c *gin.Context) {
 		method := c.Request.Method
-		origin := c.Request.Header.Get("Origin")
 		// 允许来源
-		c.Header("Access-Control-Allow-Origin", origin)
+		c.Header("Access-Control-Allow-Origin", "*")
 		// 请求方式
 		c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
 		// 允许的标头

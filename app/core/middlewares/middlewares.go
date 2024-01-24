@@ -7,5 +7,5 @@ import (
 func Load(r *gin.Engine) {
 	UseRecovery(r)
 	UseZapLogger(r)
-	// useCors(r)
+	UseCors(r)
 }
