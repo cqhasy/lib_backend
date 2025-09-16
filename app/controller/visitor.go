@@ -68,3 +68,33 @@ func (v *Visitor) GetDocumentDetail(c *gin.Context) {
 	}
 	response.OkMsgData(c, "get document detail success", response.GetDocumentDetailResponse{Docs: docs})
 }
+
+// @Summary 分页获取用户
+// @Description get users wiht pagesize and page
+// @Accept json;multipart/form-data
+// @Produce json
+// @Param  page formData int true "page number" default(1)
+// @Param  pagesize formData int true "page size" default(10)
+// @Success 200 {object} response.GetUsersResponse
+// @Failure 400 {string} string "parse params error or get users error"
+// @Router /api/v1/visitor/users [get]
+func (v *Visitor) UsersInPage(c *gin.Context) {
+	req := &request.GetUsersReq{}
+	if err := c.ShouldBind(req); err != nil {
+		response.FailMsg(c, fmt.Sprintf("parse params error: %v", err))
+		return
+	}
+	users, err := visitorService.GetUsersWithOffset(req.PageNumber, req.PageSize)
+	if err != nil {
+		response.FailMsg(c, fmt.Sprintf("get users error: %v", err))
+		return
+	}
+	var userInfos []*response.UserInfo
+	for _, user := range users {
+		userInfos = append(userInfos, &response.UserInfo{
+			Name:        user.Username,
+			Description: user.Description,
+		})
+	}
+	response.OkMsgData(c, "get UserList success", response.GetUsersResponse{Users: userInfos})
+}

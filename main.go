@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	common.CONFIG = config.New("./config.toml")
+	common.CONFIG = config.New("./config.yaml")
 	common.LOG = zap.AddZap()
 	DB, err := gorm.NewGorm()
 	if err != nil {

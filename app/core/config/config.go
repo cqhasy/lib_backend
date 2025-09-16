@@ -2,7 +2,7 @@ package config
 
 import (
 	"flag"
-	"github.com/gookit/config/v2/toml"
+	"github.com/gookit/config/v2/yaml"
 	"sync"
 
 	"github.com/fsnotify/fsnotify"
@@ -20,7 +20,7 @@ func New(path ...string) *config.Config {
 		flag.Parse()
 		if filePath == "" {
 			// 没有的话使用默认
-			filePath = "config.toml"
+			filePath = "config.yaml"
 		}
 	} else {
 		filePath = path[0]
@@ -30,7 +30,7 @@ func New(path ...string) *config.Config {
 		opts.ParseEnv = true
 	})
 	// 加载驱动
-	c.AddDriver(toml.Driver)
+	c.AddDriver(yaml.Driver)
 	// 加载配置文件
 	if err := c.LoadFiles(filePath); err != nil {
 		panic(err.Error())

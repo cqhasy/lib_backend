@@ -8,3 +8,8 @@ type GetDocumentReq struct {
 type GetDocumentDetailReq struct {
 	ID uint `json:"id" form:"id" binding:"required"`
 }
+
+type GetUsersReq struct {
+	PageSize   uint `json:"pageSize" form:"pageSize" binding:"required"`
+	PageNumber uint `json:"pageNumber" form:"pageNumber" binding:"required"`
+}

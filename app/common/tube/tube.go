@@ -14,6 +14,14 @@ import (
 	"time"
 )
 
+const (
+	HUABEI   = "huabei"   // 华北
+	HUADONG  = "huadong"  // 华东
+	HUANAN   = "huanan"   // 华南
+	BEIMEI   = "beimei"   // 北美
+	XINJIAPO = "xinjiapo" // 东南亚
+)
+
 func getToken() string {
 	var maxInt uint64 = 1 << 32
 	putPolicy := storage.PutPolicy{
@@ -33,6 +41,26 @@ func getObjectName(filename string, id uint) (string, error) {
 	return objectName, nil
 }
 
+func getZone() *storage.Region {
+	zone := common.CONFIG.String("oss.zone")
+	fmt.Println(zone)
+	switch zone {
+	case HUABEI:
+		return &storage.ZoneHuabei
+	case HUADONG:
+		return &storage.ZoneHuadong
+	case HUANAN:
+		return &storage.ZoneHuanan
+	case BEIMEI:
+		return &storage.ZoneBeimei
+	case XINJIAPO:
+		return &storage.ZoneXinjiapo
+	default:
+		// 默认使用华东区域
+		return &storage.ZoneHuadong
+	}
+}
+
 func UploadFile(filename string, id uint, r io.ReaderAt, dataLen int64) (string, error) {
 	upToken := getToken()
 	objectName, err := getObjectName(filename, id)
@@ -41,7 +69,8 @@ func UploadFile(filename string, id uint, r io.ReaderAt, dataLen int64) (string,
 	}
 
 	// 下面是七牛云的oss所需信息，objectName对应key是文件上传路径
-	cfg := storage.Config{Zone: &storage.ZoneHuanan, UseHTTPS: false, UseCdnDomains: true}
+	zone := getZone()
+	cfg := storage.Config{Zone: zone, UseHTTPS: false, UseCdnDomains: true}
 	formUploader := storage.NewResumeUploader(&cfg)
 	ret := storage.PutRet{}
 	putExtra := storage.RputExtra{Params: map[string]string{"x:name": "lablab"}}

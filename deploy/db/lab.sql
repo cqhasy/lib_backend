@@ -1,13 +1,12 @@
-create database lab;
+create database if not exists lab;
 use lab;
 
-CREATE TABLE user (
+CREATE TABLE if not exists user (
             id INT AUTO_INCREMENT PRIMARY KEY,
             username VARCHAR(50) UNIQUE,
-            password VARCHAR(255)
+            password VARCHAR(255),
+            description TEXT
 );
-
-insert into user (username, password) values ('root11', 'root11');
 
 create table if not exists document  (
                 id INT PRIMARY KEY AUTO_INCREMENT,
@@ -17,5 +16,3 @@ create table if not exists document  (
                 create_at BIGINT NOT NULL,
                 content TEXT NOT NULL
 );
-
-DROP TABLE if exists document;

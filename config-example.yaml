@@ -1,0 +1,35 @@
+app:
+  name: "AILNApp"
+
+log:
+  showLine: true
+  outType: "console"
+  console_format: "console"
+  file_format: "json"
+  director: "logs"
+  maxSize: 10
+  maxBackups: 3
+  maxAge: 7
+  compress: true
+  level: "info"
+
+gorm_log:
+  outType: "console"
+  out: "gorm.log"
+
+mysql:
+  user: "root"
+  password: "your_mysql_password"
+  server: "your_mysql_server"
+  port: "3306"
+  database: "lab"
+  config: "charset=utf8mb4&parseTime=True&loc=Local"
+  maxOpenConns: 100
+  maxIdleConns: 10
+
+oss:
+   zone: "huabei" #七牛云空间区域
+  domain: "your_oss_domain" #七牛云绑定域名
+  bucket: "your_oss_bucket" #所使用的空间
+  accessKey: "your_oss_access_key" #公钥
+  secretKey: "your_oss_secret_key" #私钥

@@ -2,6 +2,7 @@ package service
 
 import (
 	"AILN/app/model/document"
+	"AILN/app/model/user"
 	"AILN/app/request"
 )
 
@@ -23,4 +24,15 @@ func (v *VisitorService) GetDocument(req *request.GetDocumentReq) (docs []*docum
 
 func (v *VisitorService) GetDocumentDetail(id uint) (*document.Document, error) {
 	return document.FindOne(id)
+}
+
+func (v *VisitorService) GetUsersWithOffset(page uint, pagesize uint) ([]*user.User, error) {
+	if page == 0 {
+		page = 1
+	}
+	if pagesize == 0 {
+		pagesize = 10
+	}
+	users, err := user.FindInPage(page, pagesize)
+	return users, err
 }

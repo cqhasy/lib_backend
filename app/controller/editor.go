@@ -75,14 +75,14 @@ func (e *Editor) CreateDocument(c *gin.Context) {
 
 // @Summary 删掉文档
 // @Description Delete a document by its ID
-// @Accept json;multipart/form-data
+// @Accept json
 // @Produce json
-// @Param id formData uint true "ID of the document to delete" default(123)
+// @Param data body request.DeleteDocumentReq true "文档ID" SchemaExample({ "id": 123 })
 // @Success 200 {string} string "delete document success"
 // @Router /api/v1/editor/document [delete]
 func (e *Editor) DeleteDocument(c *gin.Context) {
 	req := &request.DeleteDocumentReq{}
-	if err := c.ShouldBind(req); err != nil {
+	if err := c.ShouldBindJSON(req); err != nil {
 		response.FailMsg(c, fmt.Sprintf("parse params error: %v", err))
 		return
 	}
