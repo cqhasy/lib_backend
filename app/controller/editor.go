@@ -56,6 +56,7 @@ func (e *Editor) UploadFile(c *gin.Context) {
 // @Param title formData string true "Title of the document" default(SomeTitle)
 // @Param create_at formData int64 true "Creation timestamp of the document" default(1636972168)
 // @Param content formData string true "Content of the document" default(Some content)
+// @Param avatar formData string true "avatar of the document"
 // @Security ApiKeyAuth
 // @Success 200 {string} string "Document created successfully"
 // @Failure 401 {object} response.ErrorResponse "Unauthorized"
@@ -65,6 +66,19 @@ func (e *Editor) CreateDocument(c *gin.Context) {
 	if err := c.ShouldBind(req); err != nil {
 		response.FailMsg(c, fmt.Sprintf("parse params error: %v", err))
 		return
+	}
+	od, ok, _ := editorService.CheckIfDocumentExist(req.Block, req.Group, req.Title)
+	if ok {
+		od.CreateAt = req.CreateAt
+		od.Content = req.Content
+		od.Avatar = req.Avatar
+		err := editorService.UpdateDocument(&od)
+		if err != nil {
+			response.FailMsg(c, fmt.Sprintf("update document error: %v", err))
+		}
+		response.OkMsg(c, "update document success")
+		return
+
 	}
 	if err := editorService.CreateDocument(req); err != nil {
 		response.FailMsg(c, fmt.Sprintf("create document error: %v", err))

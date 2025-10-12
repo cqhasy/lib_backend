@@ -14,5 +14,6 @@ create table if not exists document  (
                 group_name VARCHAR(255) NOT NULL,
                 title VARCHAR(255) NOT NULL,
                 create_at BIGINT NOT NULL,
-                content TEXT NOT NULL
+                content TEXT NOT NULL,
+                avatar VARCHAR(255)
 );

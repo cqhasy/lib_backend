@@ -9,7 +9,7 @@ import (
 type VisitorService struct{}
 
 func (v *VisitorService) GetDocument(req *request.GetDocumentReq) (docs []*document.Document, err error) {
-	if req.Group == "新闻中心" || req.Group == "通知公告" {
+	if req.Block == "新闻中心" || req.Block == "通知公告" || req.Block == "工作动态" {
 		docs, err = document.FindByBlockGroup(req.Block, req.Group)
 	} else {
 		var doc *document.Document

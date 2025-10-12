@@ -12,10 +12,15 @@ type Document struct {
 	Title    string `json:"title" form:"title" binding:"required"`
 	CreateAt int64  `json:"create_at" form:"create_at" binding:"required"`
 	Content  string `json:"content" form:"content" binding:"required"`
+	Avatar   string `json:"avatar" form:"avatar"`
 }
 
 func Set(d *Document) error {
 	return common.DB.Table("document").Create(d).Error
+}
+
+func Update(d *Document) error {
+	return common.DB.Table("document").Save(d).Error
 }
 
 func FindOneByBlockGroup(block string, group string) (*Document, error) {
@@ -35,6 +40,13 @@ func FindByBlockGroup(block string, group string) ([]*Document, error) {
 	return d, nil
 }
 
+func FindOneByBlockGroupAndTitle(block, group, title string) (*Document, error) {
+	var d Document
+	if err := common.DB.Table("document").First(&d, "block = ? AND group_name = ? AND title = ?", block, group, title).Error; err != nil {
+		return nil, err
+	}
+	return &d, nil
+}
 func DeleteOne(id uint) error {
 	result := common.DB.Table("document").Delete(&Document{ID: id})
 	if result.Error != nil {
